@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_aplicaciones_moviles/icono_string_util.dart';
 import 'package:proyecto_aplicaciones_moviles/provider_menu.dart';
+import 'package:proyecto_aplicaciones_moviles/alert_page.dart';
+import 'package:proyecto_aplicaciones_moviles/avatar_page.dart';
+import 'package:proyecto_aplicaciones_moviles/cards_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +26,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Proyecto Departamental"),
+        title: Text("Proyecto"),
       ),
       body: _lista(context),
     );
@@ -48,37 +51,26 @@ class MyHomePage extends StatelessWidget {
         leading: getIcon(opt['icon']),
         trailing: Icon(Icons.keyboard_arrow_right_outlined),
         onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) =>
-                _buildPopUpDialog(context, opt['texto']),
-          );
+          //showDialog(
+          //context: context,
+          //builder: (BuildContext context) =>
+          //  _buildPopUpDialog(context, opt['texto']),
+          if (opt['ruta'] == 'alert') {
+            final route = MaterialPageRoute(builder: (context) => AlertPage());
+            Navigator.push(context, route);
+          } else if (opt['ruta'] == 'avatar') {
+            final route = MaterialPageRoute(builder: (context) => AvatarPage());
+            Navigator.push(context, route);
+          } else if (opt['ruta'] == 'card') {
+            final route = MaterialPageRoute(builder: (context) => CardsPage());
+            Navigator.push(context, route);
+          } else {
+            // _buildPopUpDialog(context, opt['texto']),
+          }
         },
       );
       opciones..add(widgetTemp)..add(Divider());
     });
     return opciones;
-  }
-
-  Widget _buildPopUpDialog(BuildContext context, String opt) {
-    return new AlertDialog(
-      title: const Text('diste click en la opcion '),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('hola soy la opcion :' + opt),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColorDark,
-          child: const Text('cerrar'),
-        ),
-      ],
-    );
   }
 }
